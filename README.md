@@ -1,11 +1,19 @@
-# labitup.co
+# LabITup.co
 Repo for building LabITup.co, a fictitious company.
 
 
-Ojectives:
-Create on-prem AD environment:  DCs, 
-Create Azure environment:  
 
+Ojectives:
+- [] Create on-prem AD environment:  DC, DHCP, RTR/Gateway
+  - [] Build LIU-DC1
+  - [] Build LIU-DHCP
+
+
+- [] Create Azure environment
+  - [] Connect on-prem and Azure
+  
+  
+- [] Insert automation here...
 
 
 
