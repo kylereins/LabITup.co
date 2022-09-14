@@ -2,7 +2,7 @@
 Repo for building LabITup.co, a fictitious company.
 
 Simulated Scenario:
-- Brown field deployment, on-premise Microsoft Server environment.  
+- Brown field deployment, on-premise Microsoft Server environment, 1 campus/location, 10 business departments.
 - Moving to Azure;
   - build-and-destroy Azure resources (real-world cost cutting)
 
@@ -16,7 +16,7 @@ To-Do list:
   - [x] Virtual Network setup: isolates DC/DNS/DHCP from home router/network for AD simulation.
   - [x] Build LIU-DHCP1: DHCP server
   - [x] Build LIU-DC1: Domain Controller
-    - [ ] Populate w/ random names
+    - [ ] Populate w/ random names (PowerShell Script AD-User-Generator)
   - [ ] Build LIU-CAR1: Offline Root-CA
 
 
