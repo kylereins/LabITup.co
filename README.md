@@ -5,6 +5,7 @@ Simulated Scenario:
 - Brown field deployment, on-premise Microsoft Server environment.  
 - Moving to Azure;
   - build-and-destroy Azure resources (real-world cost cutting)
+
 Bonus Integrations / Objectives:
 - Offline Root-CA, Online Sub-CA(s), AD-integrated.
 
