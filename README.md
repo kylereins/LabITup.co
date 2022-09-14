@@ -4,10 +4,10 @@ Repo for building LabITup.co, a fictitious company.
 
 
 Ojectives:
-- [x] Create on-prem AD environment:  DC, DHCP, RTR/Gateway
-
-  - [ ] Build LIU-DC1
-  - [ ] Build LIU-DHCP
+- [ ] Create on-prem AD environment:  DC, DHCP, RTR/Gateway
+  - [ ] Build LIU-DC1: Domain Controller
+  - [ ] Build LIU-CAR1: Offline Root-CA
+  - [ ] Build LIU-DHCP1: DHCP server
 
 
 - [ ] Create Azure environment
