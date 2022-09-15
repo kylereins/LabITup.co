@@ -2,8 +2,8 @@
 ## Repo for building LabITup.co, a fictitious company.
 
 ##### Simulated Scenario:
-- ##Brown field deployment##, on-premise Microsoft Server environment, 1 campus/location, 10 business departments.
-- ##Moving to Azure;##
+- **Brown field deployment**, on-premise Microsoft Server environment, 1 campus/location, 10 business departments.
+- **Moving to Azure;**
   - build-and-destroy Azure resources (real-world cost cutting)
 
 ##### Bonus Integrations / Objectives:
