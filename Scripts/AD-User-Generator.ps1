@@ -12,14 +12,12 @@ foreach ($i in $NumUsers) {
         else {$Department = $DepartmentNames[(Get-Random) % $DepartmentNames.Count]  #Gets Random Department Name from list below
     }
 
-    #Assign user object to interactively selected OU
-
     ## Retrieve possible Security Groups
     # Prompt user, interactively, for assignment to a Security Group
     # Assign user object to interactively selected Security Group
 
     # Prompt for password asSecureString
-    $passwordSecureString = Read-Host "What shall we set as the password?" -AsSecureString
+    $AccountPassword = Read-Host "What shall we set as the password?" -AsSecureString
     
     # Get random name from list of FirstNames and LastNames
     $FName = $FirstNames[(Get-Random -Maximum ($FirstNames.Count))]
@@ -28,19 +26,24 @@ foreach ($i in $NumUsers) {
         #Check $Name already exists (email/Name/etc.) in AD
         write-host "UserName being created will be: " $Name
     
+    #Select Random OU, and check if OU exists in AD
+    $OU = $DepartmentNames[(Get-Random -Maximum ($DepartmentNames.Count))]
+        #Check is OU exists... else...    
+    $Path = "OU='$OU'DC=labitup,DC=co"
 
-
-
-        $Title = $Titles[((Get-Random) % $Titles.Count)] #Gets Random Title from list below
+    $Title = $Titles[((Get-Random) % $Titles.Count)] #Gets Random Title from list below
         write-host ("Title will be: " + $Title)
-    $RandomNum = Get-Random -Maximum 4  #Sets random number for Office Phone field
+
+    $OfficePhoneExt = Get-Random -Maximum 4  #Sets random number for Office Phone field
 
     #Create ADUser object
-    New-ADUser -Name $Name -GivenName $FName -Surname $LName -AccountPassword $passwordSecureString`
-    [-SamAccountName <string>] [-UserPrincipalName <string>] -Enabled $True`
-    -EmailAddress ($Name + "@labitup.co") -Title $Title -Department $Department [-Division <string>]`
-    -City "Little Rock"  -PostalCode "72099" -Company "LabITup" -OfficePhone "(501)-123-'$RandomNum'" -State "AR"
+    New-ADUser -Name $Name -GivenName $FName -Surname $LName -AccountPassword $AccountPassword`
+    -Path $Path` #OU placement
+    -OfficePhone "(501)-123-'$OfficePhoneExt'" -Enabled $True`
+    -EmailAddress ($Name + "@labitup.co") -Title $Title -Department $Department [-Division <string>]` #Static/Rubber-Stamped values
+    -City "Little Rock"  -PostalCode "72099" -Company "LabITup" -State "AR" #Static/Rubber-Stamped values
     <#  Fields to consider setting...
+        [-SamAccountName <string>] [-UserPrincipalName <string>]
         [-WhatIf] [-Confirm] [-AccountExpirationDate <datetime>] [-AuthenticationPolicy <ADAuthenticationPolicy>]
         [-AuthType {Negotiate | Basic}] [-CannotChangePassword <bool>] [-Certificates <X509Certificate[]>] [-ChangePasswordAtLogon <bool>] 
         [-CompoundIdentitySupported <bool>] [-Country <string>]  [-Description <string>] [-DisplayName <string>] [-EmployeeID <string>]
@@ -48,7 +51,7 @@ foreach ($i in $NumUsers) {
         [-HomePhone <string>] [-Initials <string>] [-Instance <ADUser>] [-KerberosEncryptionType {None | DES | RC4 | AES128 | AES256}]
         [-LogonWorkstations <string>] [-Manager <ADUser>] [-MobilePhone <string>] [-Office <string>] [-Organization <string>]
         [-OtherAttributes <hashtable>] [-OtherName <string>] [-PassThru] [-PasswordNeverExpires <bool>] [-PasswordNotRequired <bool>]
-        [-Path <string>] [-POBox <string>] [-PrincipalsAllowedToDelegateToAccount <ADPrincipal[]>] [-ProfilePath <string>] 
+        [-POBox <string>] [-PrincipalsAllowedToDelegateToAccount <ADPrincipal[]>] [-ProfilePath <string>] 
         [-ScriptPath <string>] [-Server <string>] [-ServicePrincipalNames <string[]>] [-SmartcardLogonRequired <bool>] [-StreetAddress <string>]
         [-Type <string>] #>
 
@@ -68,6 +71,14 @@ $FirstNames="James","Robert","John","Michael","David","William","Richard","Josep
 "Victoria","Kelly","Lauren","Christina","Joan","Evelyn","Judith","Megan","Andrea","Cheryl","Hannah","Jacqueline","Martha","Gloria","Teresa",
 "Ann","Sara","Madison","Frances","Kathryn","Janice","Jean","Abigail","Alice","Julia","Judy","Sophia","Grace","Denise","Amber","Doris","Marilyn",
 "Danielle","Beverly","Isabella","Theresa","Diana","Natalie","Brittany","Charlotte","Marie","Kayla","Alexis","Lori"
+
+$LastNames = "Smith","Johnson","Williams","Brown","Jones","Garcia","Miller","Davis","Rodriguez","Martinez","Hernandez","Lopez","Gonzales","Wilson","Anderso
+n","Thomas","Taylor","Moore","Jackson","Martin","Lee","Perez","Thompson","White","Harris","Sanchez","Clark","Ramirez","Lewis","Robinson","Wal
+ker","Young","Allen","King","Wright","Scott","Torres","Nguyen","Hill","Flores","Green","Adams","Nelson","Baker","Hall","Rivera","Campbell","M
+itchell","Carter","Roberts","Gomez","Phillips","Evans","Turner","Diaz","Parker","Cruz","Edwards","Collins","Reyes","Stewart","Morris","Morale
+s","Murphy","Cook","Rogers","Gutierrez","Ortiz","Morgan","Cooper","Peterson","Bailey","Reed","Kelly","Howard","Ramos","Kim","Cox","Ward","Ric
+hardson","Watson","Brooks","Chavez","Wood","James","Bennet","Gray","Mendoza","Ruiz","Hughes","Price","Alvarez","Castillo","Sanders","Patel","
+Myers","Long","Ross","Foster","Jimenez"
 
 $DepartmentNames = "BOD","Engineering","Finance","HR","IT","Legal","Purchasing","Marketing","Operations","Sales"
 
