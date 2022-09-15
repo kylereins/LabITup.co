@@ -20,10 +20,15 @@
   - [ ] Build Win10 Client: install WAC (Windows Admin Center) for Admin emulation/duties
 
 - [ ] Create Azure environment
-  - [x] Register domain name (LabITup.co): use actual TLD, for future-proofing and anti-MiTM
-  - [ ] Build Azure MG/Sub/RG (Mgt Grp, Subscription, Resource Group):  Decouple project from personal account 
-  - [ ] Connect on-prem and Azure:  Azure-AD Synce server.
+  - [ ] Build Azure MG/Sub/RG (Mgt Grp, Subscription, Resource Group):  Decouple project from personal account
+  - [ ] Connect on-prem and Azure:  Azure-AD Synce server
   
+- [ ] Public Facing company presence
+  - [x] Register domain name (LabITup.co): use actual TLD, for future-proofing and anti-MiTM
+  - [ ] Create Static Website for www.LabITup.co:  Azure Static Web App
+    - [x] Forward DNS registration (HTTPS/WWW) to Azure SWA
+    - [x] GitHub Actions driving updates from Main.html file in this repo to Azure SWA
+
   
 - [ ] Insert automation here...
 
