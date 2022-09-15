@@ -11,18 +11,18 @@
 
 
 ##### To-Do list:
-- [x] Register domain name (LabITup.co): use actual TLD, for future-proofing and anti-MiTM
 - [ ] Create on-prem AD environment:  DC, DHCP, RTR/Gateway
   - [x] Virtual Network setup: isolates DC/DNS/DHCP from home router/network for AD simulation.
-  - [x] Build LIU-DHCP1: DHCP server
-  - [x] Build LIU-DC1: Domain Controller
-    - [ ] Populate w/ random names (PowerShell Script AD-User-Generator)
-  - [ ] Build LIU-CAR1: Offline Root-CA
-
-
+  - [x] Build DHCP server: 
+  - [x] Build Domain Controller:
+    - [ ] Populate w/ random names (PowerShell Script AD-User-Generator.ps1)
+  - [ ] Build Offline Root-CA
+  - [ ] Build Win10 Client: install WAC (Windows Admin Center) for Admin emulation/duties
 
 - [ ] Create Azure environment
-  - [ ] Connect on-prem and Azure
+  - [x] Register domain name (LabITup.co): use actual TLD, for future-proofing and anti-MiTM
+  - [ ] Build Azure MG/Sub/RG (Mgt Grp, Subscription, Resource Group):  Decouple project from personal account 
+  - [ ] Connect on-prem and Azure:  Azure-AD Synce server.
   
   
 - [ ] Insert automation here...
