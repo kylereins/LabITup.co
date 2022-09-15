@@ -15,7 +15,7 @@
   - [x] Virtual Network setup: isolates DC/DNS/DHCP from home router/network for AD simulation.
   - [x] Build DHCP server: 
   - [x] Build Domain Controller:
-    - [ ] Populate w/ random names (PowerShell Script AD-User-Generator.ps1)
+    - [ ] Populate w/ random user accounts, OUs, Security Groups (PowerShell Script AD-User-Generator.ps1)
   - [ ] Build Offline Root-CA
   - [ ] Build Win10 Client: install WAC (Windows Admin Center) for Admin emulation/duties
 
