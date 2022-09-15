@@ -7,10 +7,12 @@ Until (($NumUsers -ge 1) -and ($NumUsers -le 10))
 foreach ($i in $NumUsers) {
     ## Retrieve possible OUs
     #Prompt user, interactively, for assignment to an OU
-    If (Read-Host "Type 'Yes' to manually assign OU and Department. Otherwise, it will be Automatically selected." -eq "Yes") {
+    <#If (Read-Host "Type 'Yes' to manually assign OU and Department. Otherwise, it will be Automatically selected." -eq "Yes") {
         $Department = Read-Host "What OU/Department?"     }
         else {$Department = $DepartmentNames[(Get-Random) % $DepartmentNames.Count]  #Gets Random Department Name from list below
-    }
+    }#>
+    $Department = $DepartmentNames[(Get-Random) % $DepartmentNames.Count]  #Gets Random Department Name from list below
+        write-host "Department is: " + $Department
 
     ## Retrieve possible Security Groups
     # Prompt user, interactively, for assignment to a Security Group
@@ -19,16 +21,17 @@ foreach ($i in $NumUsers) {
     # Prompt for password asSecureString
     $AccountPassword = Read-Host "What shall we set as the password?" -AsSecureString
     
-    # Get random name from list of FirstNames and LastNames
+    # Get random name from list of FirstNames and LastNames below
     $FName = $FirstNames[(Get-Random -Maximum ($FirstNames.Count))]
     $LName = $LastNames[(Get-Random -Maximum ($LastNames.Count))]
     $Name = $FName + " " + $LName
-        #Check $Name already exists (email/Name/etc.) in AD
+        #Check $Name already exists (email/Name/etc.) in AD.  SamAccountName is 
         write-host "UserName being created will be: " $Name
+        get-aduser ($FName + $LName) -eq $
     
     #Select Random OU, and check if OU exists in AD
     $OU = $DepartmentNames[(Get-Random -Maximum ($DepartmentNames.Count))]
-        #Check is OU exists... else...    
+        #Check is OU exists... else...
     $Path = "OU='$OU'DC=labitup,DC=co"
 
     $Title = $Titles[((Get-Random) % $Titles.Count)] #Gets Random Title from list below
@@ -56,7 +59,6 @@ foreach ($i in $NumUsers) {
         [-Type <string>] #>
 
 }
-
 
 $FirstNames="James","Robert","John","Michael","David","William","Richard","Joseph","Thomas","Charles","Christopher","Daniel","Matthew",
 "Anthony","Mark","Donald","Steven","Paul","Andrew","Joshua","Kenneth","Kevin","Brian","George","Timothy","Ronald","Edward","Jason","Jeffrey"
