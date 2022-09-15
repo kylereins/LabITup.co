@@ -25,9 +25,10 @@
   
 - [ ] Public Facing company presence
   - [x] Register domain name (LabITup.co): use actual TLD, for future-proofing and anti-MiTM
-  - [ ] Create Static Website for www.LabITup.co:  Azure Static Web App
+  - [x] Create Static Website for www.LabITup.co:  Azure Static Web App
     - [x] Forward DNS registration (HTTPS/WWW) to Azure SWA
     - [x] GitHub Actions driving updates from Main.html file in this repo to Azure SWA
+    - [ ] Fill SWA with actual content... low priority for lab purposes
 
   
 - [ ] Insert automation here...
