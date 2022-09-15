@@ -11,8 +11,8 @@ foreach ($i in $NumUsers) {
         $Department = Read-Host "What OU/Department?"     }
         else {$Department = $DepartmentNames[(Get-Random) % $DepartmentNames.Count]  #Gets Random Department Name from list below
     }#>
-    $Department = $DepartmentNames[(Get-Random) % $DepartmentNames.Count]  #Gets Random Department Name from list below
-        write-host "Department is: " + $Department
+    $Department = Get-Random -InputObject $DepartmentNames  #Gets Random Department Name from list below
+        write-host "Department is: " $Department
 
     ## Retrieve possible Security Groups
     # Prompt user, interactively, for assignment to a Security Group
@@ -22,31 +22,32 @@ foreach ($i in $NumUsers) {
     $AccountPassword = Read-Host "What shall we set as the password?" -AsSecureString
     
     # Get random name from list of FirstNames and LastNames below
-    $FName = $FirstNames[(Get-Random -Maximum ($FirstNames.Count))]
-    $LName = $LastNames[(Get-Random -Maximum ($LastNames.Count))]
+    $FName = Get-Random -InputObject $FirstNames.Count
+    $LName = Get-Random -InputObject $LastNames.Count
     $Name = $FName + " " + $LName
         #Check $Name already exists (email/Name/etc.) in AD.  SamAccountName is 
         write-host "UserName being created will be: " $Name
         get-aduser ($FName + $LName) -eq $
     
     #Select Random OU, and check if OU exists in AD
-    $OU = $DepartmentNames[(Get-Random -Maximum ($DepartmentNames.Count))]
+    $OU = Get-Random -InputObject $DepartmentNames
         #Check is OU exists... else...
     $Path = "OU='$OU'DC=labitup,DC=co"
 
-    $Title = $Titles[((Get-Random) % $Titles.Count)] #Gets Random Title from list below
-        write-host ("Title will be: " + $Title)
+    $Title = Get-Random -InputObject $Titles #Gets Random Title from list below
+        write-host "Title will be: " $Title
 
     $OfficePhoneExt = Get-Random -Maximum 4  #Sets random number for Office Phone field
 
     #Create ADUser object
-    New-ADUser -Name $Name -GivenName $FName -Surname $LName -AccountPassword $AccountPassword`
+    New-ADUser -WhatIf
+    -Name $Name -GivenName $FName -Surname $LName -AccountPassword $AccountPassword`
     -Path $Path` #OU placement
     -OfficePhone "(501)-123-'$OfficePhoneExt'" -Enabled $True`
-    -EmailAddress ($Name + "@labitup.co") -Title $Title -Department $Department [-Division <string>]` #Static/Rubber-Stamped values
+    -EmailAddress ($Name + "@labitup.co") -Title $Title -Department $Department` #Static/Rubber-Stamped values
     -City "Little Rock"  -PostalCode "72099" -Company "LabITup" -State "AR" #Static/Rubber-Stamped values
     <#  Fields to consider setting...
-        [-SamAccountName <string>] [-UserPrincipalName <string>]
+        [-SamAccountName <string>] [-UserPrincipalName <string>] [-Division <string>]
         [-WhatIf] [-Confirm] [-AccountExpirationDate <datetime>] [-AuthenticationPolicy <ADAuthenticationPolicy>]
         [-AuthType {Negotiate | Basic}] [-CannotChangePassword <bool>] [-Certificates <X509Certificate[]>] [-ChangePasswordAtLogon <bool>] 
         [-CompoundIdentitySupported <bool>] [-Country <string>]  [-Description <string>] [-DisplayName <string>] [-EmployeeID <string>]
