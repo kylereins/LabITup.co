@@ -1,12 +1,11 @@
 ### Create new Active Directory user objects in order to speed the creation of lab environment
 # https://adamtheautomator.com/new-aduser/
-#Comment for push test
+# comments to make a push/update
 ## Prompt for how many users objects to create
 Do {[int]$NumUsers = Read-host "How many users would you like to create? [1-10]"}
 Until (($NumUsers -ge 1) -and ($NumUsers -le 10))
 
-foreach ($i in $NumUsers) {
-    ## Retrieve possible OUs
+for ($i=0; $i -le $NumUsers.count; $i++) {
     #Prompt user, interactively, for assignment to an OU
     <#If (Read-Host "Type 'Yes' to manually assign OU and Department. Otherwise, it will be Automatically selected." -eq "Yes") {
         $Department = Read-Host "What OU/Department?"     }
@@ -23,29 +22,31 @@ foreach ($i in $NumUsers) {
     $AccountPassword = Read-Host "What shall we set as the password?" -AsSecureString
     
     # Get random name from list of FirstNames and LastNames below
-    $FName = Get-Random -InputObject $FirstNames.Count
-    $LName = Get-Random -InputObject $LastNames.Count
+    $FName = Get-Random -InputObject $FirstNames
+    $LName = Get-Random -InputObject $LastNames
     $Name = $FName + " " + $LName
         #Check $Name already exists (email/Name/etc.) in AD.  SamAccountName is 
         write-host "UserName being created will be: " $Name
-        get-aduser ($FName + $LName) -eq $
+        #get-aduser ($FName + $LName) -eq $
     
     #Select Random OU, and check if OU exists in AD
     $OU = Get-Random -InputObject $DepartmentNames
         #Check is OU exists... else...
     $Path = "OU='$OU'DC=labitup,DC=co"
+        Write-Host "OU will be: " $Path
 
     $Title = Get-Random -InputObject $Titles #Gets Random Title from list below
         write-host "Title will be: " $Title
 
-    $OfficePhoneExt = Get-Random -Maximum 4  #Sets random number for Office Phone field
+    $OfficePhoneExt = (Get-Random -Maximum 9999 | Out-String)  #Sets random number for Office Phone field
+     $OfficePhoneExt = $OfficePhoneExt.PadLeft(4,'0')
+        write-host '$OfficePhoneExt will be: ' $OfficePhoneExt
 
     #Create ADUser object
-    New-ADUser -WhatIf
-    -Name $Name -GivenName $FName -Surname $LName -AccountPassword $AccountPassword`
-    -Path $Path` #OU placement
-    -OfficePhone "(501)-123-'$OfficePhoneExt'" -Enabled $True`
-    -EmailAddress ($Name + "@labitup.co") -Title $Title -Department $Department` #Static/Rubber-Stamped values
+    New-ADUser -WhatIf `
+    -Name $Name -GivenName $FName -Surname $LName -AccountPassword $AccountPassword `
+    -Path $Path -OfficePhone "(501)-123-$OfficePhoneExt" -Enabled $True `
+    -EmailAddress ($Name + "@labitup.co") -Title $Title -Department $Department `
     -City "Little Rock"  -PostalCode "72099" -Company "LabITup" -State "AR" #Static/Rubber-Stamped values
     <#  Fields to consider setting...
         [-SamAccountName <string>] [-UserPrincipalName <string>] [-Division <string>]
@@ -59,11 +60,10 @@ foreach ($i in $NumUsers) {
         [-POBox <string>] [-PrincipalsAllowedToDelegateToAccount <ADPrincipal[]>] [-ProfilePath <string>] 
         [-ScriptPath <string>] [-Server <string>] [-ServicePrincipalNames <string[]>] [-SmartcardLogonRequired <bool>] [-StreetAddress <string>]
         [-Type <string>] #>
-
 }
 
-$FirstNames="James","Robert","John","Michael","David","William","Richard","Joseph","Thomas","Charles","Christopher","Daniel","Matthew",
-"Anthony","Mark","Donald","Steven","Paul","Andrew","Joshua","Kenneth","Kevin","Brian","George","Timothy","Ronald","Edward","Jason","Jeffrey"
+[System.Collections.ArrayList]$FirstNames="James","Robert","John","Michael","David","William","Richard","Joseph","Thomas","Charles","Christopher","Daniel","Matthew",
+"Anthony","Mark","Donald","Steven","Paul","Andrew","Joshua","Kenneth","Kevin","Brian","George","Timothy","Ronald","Edward","Jason","Jeffrey",
 "Ryan","Jacob","Gary","Nicholas","Eric","Jonathan","Stephen","Larry","Justin","Scott","Brandon","Benjamin","Samuel","Gregory","Alexander",
 "Frank","Patrick","Raymond","Jack","Dennis","Jerry","Tyler","Aaron","Jose","Adam","Nathan","Henry","Douglas","Zachary","Peter","Kyle","Ethan",
 "Walter","Noah","Jeremy","Christian","Keith","Roger","Terry","Gerald","Harold","Sean","Austin","Carl","Arthur","Lawrence","Dylan","Jesse",
@@ -76,17 +76,17 @@ $FirstNames="James","Robert","John","Michael","David","William","Richard","Josep
 "Ann","Sara","Madison","Frances","Kathryn","Janice","Jean","Abigail","Alice","Julia","Judy","Sophia","Grace","Denise","Amber","Doris","Marilyn",
 "Danielle","Beverly","Isabella","Theresa","Diana","Natalie","Brittany","Charlotte","Marie","Kayla","Alexis","Lori"
 
-$LastNames = "Smith","Johnson","Williams","Brown","Jones","Garcia","Miller","Davis","Rodriguez","Martinez","Hernandez","Lopez","Gonzales","Wilson","Anderso
-n","Thomas","Taylor","Moore","Jackson","Martin","Lee","Perez","Thompson","White","Harris","Sanchez","Clark","Ramirez","Lewis","Robinson","Wal
-ker","Young","Allen","King","Wright","Scott","Torres","Nguyen","Hill","Flores","Green","Adams","Nelson","Baker","Hall","Rivera","Campbell","M
-itchell","Carter","Roberts","Gomez","Phillips","Evans","Turner","Diaz","Parker","Cruz","Edwards","Collins","Reyes","Stewart","Morris","Morale
-s","Murphy","Cook","Rogers","Gutierrez","Ortiz","Morgan","Cooper","Peterson","Bailey","Reed","Kelly","Howard","Ramos","Kim","Cox","Ward","Ric
-hardson","Watson","Brooks","Chavez","Wood","James","Bennet","Gray","Mendoza","Ruiz","Hughes","Price","Alvarez","Castillo","Sanders","Patel","
-Myers","Long","Ross","Foster","Jimenez"
+[System.Collections.ArrayList]$LastNames = "Smith","Johnson","Williams","Brown","Jones","Garcia","Miller","Davis","Rodriguez","Martinez",
+"Hernandez","Lopez","Gonzales","Wilson","Anderson","Thomas","Taylor","Moore","Jackson","Martin","Lee","Perez","Thompson","White","Harris",
+"Sanchez","Clark","Ramirez","Lewis","Robinson","Walker","Young","Allen","King","Wright","Scott","Torres","Nguyen","Hill","Flores","Green",
+"Adams","Nelson","Baker","Hall","Rivera","Campbell","Mitchell","Carter","Roberts","Gomez","Phillips","Evans","Turner","Diaz","Parker","Cruz",
+"Edwards","Collins","Reyes","Stewart","Morris","Morales","Murphy","Cook","Rogers","Gutierrez","Ortiz","Morgan","Cooper","Peterson","Bailey",
+"Reed","Kelly","Howard","Ramos","Kim","Cox","Ward","Richardson","Watson","Brooks","Chavez","Wood","James","Bennet","Gray","Mendoza","Ruiz",
+"Hughes","Price","Alvarez","Castillo","Sanders","Patel","Myers","Long","Ross","Foster","Jimenez"
 
-$DepartmentNames = "BOD","Engineering","Finance","HR","IT","Legal","Purchasing","Marketing","Operations","Sales"
+[System.Collections.ArrayList]$DepartmentNames = "BOD","Engineering","Finance","HR","IT","Legal","Purchasing","Marketing","Operations","Sales"
 
-$Titles = "Manager","Worker","Laborer","Doer of Things","Collator","Party planning committee","Assistant Regional Manager"
+[System.Collections.ArrayList]$Titles = "Manager","Worker","Laborer","Doer of Things","Collator","Party planning committee","Assistant Regional Manager"
 
 
 
