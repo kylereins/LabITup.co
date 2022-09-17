@@ -1,26 +1,42 @@
 ### Create new Active Directory user objects in order to speed the creation of lab environment
 # https://adamtheautomator.com/new-aduser/
-# comments to make a push/update
+# https://adamtheautomator.com/powershell-whatif/
+
 ## Prompt for how many users objects to create
 Do {[int]$NumUsers = Read-host "How many users would you like to create? [1-10]"}
 Until (($NumUsers -ge 1) -and ($NumUsers -le 10))
 
-for ($i=0; $i -le $NumUsers.count; $i++) {
-    #Prompt user, interactively, for assignment to an OU
-    <#If (Read-Host "Type 'Yes' to manually assign OU and Department. Otherwise, it will be Automatically selected." -eq "Yes") {
-        $Department = Read-Host "What OU/Department?"     }
-        else {$Department = $DepartmentNames[(Get-Random) % $DepartmentNames.Count]  #Gets Random Department Name from list below
-    }#>
+## Prompt for -Whatif in order to a dry run (doesn't actually run commands)
+$DoWhatIf = $True
+#$DoWhatIf = Read-Host "Would you like to do a Dry-Run (makes no changes)?"
+    Write-Host "The DoWhatIf variable is set to $DoWhatIf"
+
+$RootDomain = "DC=labitup,DC=co" #Future development: confirm with user this is the right domain name
+
+# Prompt for password asSecureString
+$AccountPassword = Read-Host "We are going to set all passwords as the same, `
+What shall we set as the password(s)?" -AsSecureString
+write-host "AccountPassword variable is set as: $AccountPassword"
+
+for ($i=1; $i -le $NumUsers.count; $i++) {
     $Department = Get-Random -InputObject $DepartmentNames  #Gets Random Department Name from list below
-        write-host "Department is: " $Department
+        write-host "Department will be: " $Department
+    #Check if Department exists in AD as an OU, and create OU if not 
+    $OU = $Department
+        write-host "OU will be: " $OU
+    if (Get-ADOrganizationalUnit -Filter "distinguishedName -eq 'OU=$Department,$RootDomain'") {
+        Write-Host "OU $Department already exists in $RootDomain" #if OU exists do this...
+    } else { Write-Host "We will have to create the OU: $Department" #Establish new OU
+        New-ADOrganizationalUnit -WhatIf:$DoWhatIf -Name $Department -Path $RootDomain
+        }
+    write-host "results of Get-ADOrgUnit is: " Get-ADOrganizationalUnit -Identity "OU=$Department,DC=labitup,DC=co"
+    $Path = "OU=$OU,DC=labitup,DC=co"
+        Write-Host "Path will be: " $Path
 
     ## Retrieve possible Security Groups
     # Prompt user, interactively, for assignment to a Security Group
     # Assign user object to interactively selected Security Group
 
-    # Prompt for password asSecureString
-    $AccountPassword = Read-Host "What shall we set as the password?" -AsSecureString
-    
     # Get random name from list of FirstNames and LastNames below
     $FName = Get-Random -InputObject $FirstNames
     $LName = Get-Random -InputObject $LastNames
@@ -29,12 +45,6 @@ for ($i=0; $i -le $NumUsers.count; $i++) {
         write-host "UserName being created will be: " $Name
         #get-aduser ($FName + $LName) -eq $
     
-    #Select Random OU, and check if OU exists in AD
-    $OU = Get-Random -InputObject $DepartmentNames
-        #Check is OU exists... else...
-    $Path = "OU=$OU,DC=labitup,DC=co"
-        Write-Host "Path will be: " $Path
-
     $Title = Get-Random -InputObject $Titles #Gets Random Title from list below
         write-host "Title will be: " $Title
 
@@ -43,8 +53,7 @@ for ($i=0; $i -le $NumUsers.count; $i++) {
         write-host '$OfficePhoneExt will be: ' $OfficePhoneExt
 
     #Create ADUser object
-    New-ADUser `
-    -Name $Name -GivenName $FName -Surname $LName -AccountPassword $AccountPassword `
+    New-ADUser -WhatIf:$DoWhatIf -Name $Name -GivenName $FName -Surname $LName -AccountPassword $AccountPassword `
     -Path $Path -OfficePhone "(501)-123-$OfficePhoneExt" -Enabled $True `
     -EmailAddress ($Name + "@labitup.co") -Title $Title -Department $Department `
     -City "Little Rock"  -PostalCode "72099" -Company "LabITup" -State "AR" #Static/Rubber-Stamped values
