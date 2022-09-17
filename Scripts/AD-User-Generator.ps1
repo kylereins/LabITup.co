@@ -32,8 +32,8 @@ for ($i=0; $i -le $NumUsers.count; $i++) {
     #Select Random OU, and check if OU exists in AD
     $OU = Get-Random -InputObject $DepartmentNames
         #Check is OU exists... else...
-    $Path = "OU='$OU'DC=labitup,DC=co"
-        Write-Host "OU will be: " $Path
+    $Path = "OU=$OU,DC=labitup,DC=co"
+        Write-Host "Path will be: " $Path
 
     $Title = Get-Random -InputObject $Titles #Gets Random Title from list below
         write-host "Title will be: " $Title
@@ -43,7 +43,7 @@ for ($i=0; $i -le $NumUsers.count; $i++) {
         write-host '$OfficePhoneExt will be: ' $OfficePhoneExt
 
     #Create ADUser object
-    New-ADUser -WhatIf `
+    New-ADUser `
     -Name $Name -GivenName $FName -Surname $LName -AccountPassword $AccountPassword `
     -Path $Path -OfficePhone "(501)-123-$OfficePhoneExt" -Enabled $True `
     -EmailAddress ($Name + "@labitup.co") -Title $Title -Department $Department `
@@ -87,7 +87,6 @@ for ($i=0; $i -le $NumUsers.count; $i++) {
 [System.Collections.ArrayList]$DepartmentNames = "BOD","Engineering","Finance","HR","IT","Legal","Purchasing","Marketing","Operations","Sales"
 
 [System.Collections.ArrayList]$Titles = "Manager","Worker","Laborer","Doer of Things","Collator","Party planning committee","Assistant Regional Manager"
-
 
 
 
