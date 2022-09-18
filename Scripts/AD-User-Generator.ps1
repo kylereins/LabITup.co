@@ -19,7 +19,7 @@ $DomainLDAP = "DC=labitup,DC=co" #Future development: confirm with user this is 
 $AccountPassword = Read-Host "We are going to set passwords for all accounts created in this run as the same password, `
 What shall we set as the password(s) as?" -AsSecureString
 
-for ($i=1; $i -le $NumUsers.count; $i++) {
+for ($i=1; $i -le $NumUsers; $i++) {
     $Department = Get-Random -InputObject $DepartmentNames  #Gets Random Department Name from list below
         write-host "Department will be: " $Department
     #Check if Department exists in AD as an OU, and create OU if not 
