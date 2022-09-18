@@ -33,7 +33,7 @@
 
   
 - [ ] Insert automation here...
-  - [ ] Script user logons, file browser, web browser, to generate logs and such
+  - [ ] Script simulated usage of systems: user logons, file browsing, web browsing, etc to generate logs and such
   - [ ] 
 
 
