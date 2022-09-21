@@ -10,19 +10,19 @@
 - Offline Root-CA, Online Sub-CA(s), AD-integrated.
 
 
-##### To-Do list:
+##### *To-Do list:*
 - [ ] Create on-prem AD environment:  DC, DHCP, RTR/Gateway
   - [x] Virtual Network setup: isolates DC/DNS/DHCP from home router/network for AD simulation.
-  - [x] Build DHCP server: 
-  - [x] Build Domain Controller:
-    - [ ] Enable AD Recycle Bin
-    - [ ] Populate w/ random user accounts, OUs, Security Groups (PowerShell Script AD-User-Generator.ps1)
-  - [ ] Build Offline Root-CA
-  - [ ] Build Win10 Client: install WAC (Windows Admin Center) for Admin emulation/duties
+  - [x] DHCP server and RTR
+  - [x] Domain Controller: Basic configs (WinRM, IP), Enable AD Recycle Bin, unique admin accounts
+    - [ ] Populate w/ random user accounts, OUs (PowerShell Script AD-User-Generator.ps1)
+  - [x] Win10 Client: install/configure WAC (Windows Admin Center) for Admin emulation/duties
+  - [ ] 
+  - [ ] Offline Root-CA  
 
 - [ ] Create Azure environment
-  - [ ] Build Azure MG/Sub/RG (Mgt Grp, Subscription, Resource Group):  Decouple project from personal account
-  - [ ] Connect on-prem and Azure:  Azure-AD Synce server
+  - [ ] Build Azure ~~Mgt Grp~~, Subscription, Resource Group(s)):  Decouple project from personal account
+  - [ ] Connect on-prem and Azure:  Azure-AD Sync server, possibly ADFS
   
 - [ ] Public Facing company presence
   - [x] Register domain name (LabITup.co): use actual TLD, for future-proofing and anti-MiTM
@@ -32,8 +32,11 @@
     - [ ] Fill SWA with actual content... low priority for lab purposes
 
   
-- [ ] Insert automation here...
-  - [ ] Script simulated usage of systems: user logons, file browsing, web browsing, etc to generate logs and such
+- [ ] Insert testing/automation here...
+  - [ ] Script simulated usage of systems: user logons, file browsing, web browsing, etc to generate logs, usage, and such
+  - [ ] Prometheus monitoring server
+    - [ ] join AD
+    - [ ] configure monitoring of VM's/containers
   - [ ] 
 
 
