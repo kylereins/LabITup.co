@@ -2,11 +2,12 @@
 ## Repo for building LabITup.co, a fictitious company.
 
 ##### Simulated Scenario:
-- **Brown field deployment**, on-premise Microsoft Server environment, 1 campus/location, 10 business departments.
+- **Brown field deployment**, on-premise Microsoft Server environment, 1 dedicated host (extra laptop), 1 campus/location, 10 business departments.
 - **Moving to Azure;**
   - build-and-destroy Azure resources (real-world cost cutting)
 
 ##### Bonus Integrations / Objectives:
+- Azure Arc-joined server (laptop)
 - Offline Root-CA, Online Sub-CA(s), AD-integrated.
 
 
@@ -17,7 +18,7 @@
   - [x] Domain Controller: Basic configs (WinRM, IP), Enable AD Recycle Bin, unique admin accounts
     - [ ] Populate w/ random user accounts, OUs (PowerShell Script AD-User-Generator.ps1)
   - [x] Win10 Client: install/configure WAC (Windows Admin Center) for Admin emulation/duties
-  - [ ] 
+  - [ ] Join Server 2019 host to Azure ARC
   - [ ] Offline Root-CA  
 
 - [ ] Create Azure environment
@@ -25,7 +26,8 @@
   - [ ] Connect on-prem and Azure:  Azure-AD Sync server, possibly ADFS
   
 - [ ] Public Facing company presence
-  - [x] Register domain name (LabITup.co): use actual TLD, for future-proofing and anti-MiTM
+  - [x] Register domain name (LabITup.co): use actual TLD
+  - [ ] Create Azure Tenant/Directory: new Global Admin; disconnect from personal account
   - [x] Create Static Website for www.LabITup.co:  Azure Static Web App
     - [x] Forward DNS registration (HTTPS/WWW) to Azure SWA
     - [x] GitHub Actions driving updates from Index.html file in this repo to Azure SWA
